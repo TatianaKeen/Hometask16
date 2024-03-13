@@ -1,19 +1,13 @@
-// Створення екземпляр прототипа UserService
-const userService = new UserService(
-  "https://jsonplaceholder.typicode.com/users",
-);
-
 function App() {
-  /**
-   * Виклик метода із прототипа userService для отримання списка юзерів.
-   * const users = await userService....
-   */
-  //
-  //
-  /**
-   * Відображення списку юзерів на сторінці
-   * userService.renderUsersList....
-   */
+  document.addEventListener('DOMContentLoaded', async () => {
+    try {
+      const usersService = new UsersService('https://jsonplaceholder.typicode.com');
+      const users = await usersService.getAllUsers();
+      usersService.renderUsersList(users);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  });
 }
 
 App();

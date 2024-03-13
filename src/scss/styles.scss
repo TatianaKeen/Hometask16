@@ -1,0 +1,101 @@
+@import "variables";
+@import url('https://fonts.googleapis.com/css2?family=Dekko&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&display=swap');
+
+
+* {
+  margin: 0;
+  padding: 0;
+  color: map-get($colors, dark-blue);
+}
+
+.user-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  background-color: map-get($colors, light-blue);
+  font-family: "Red Hat Display", sans-serif;
+
+  .container {
+    display: flex;
+    margin: 50px;
+    width: 70%;
+    background-color: map-get($colors, white);
+    border-radius: 10px;
+    box-shadow: -5px 5px 20px map-get($colors, gray);
+
+    .list-wrapper {
+      padding: 50px;
+      flex: 1;
+      border-right: 1px solid map-get($colors, light-blue);
+
+      h1 {
+        margin-bottom: 20px;
+      }
+
+      .user-list {
+
+        li {
+          list-style: none;
+          padding: 15px 0px;
+          border-bottom: 1px solid map-get($colors, light-blue);
+
+          .user-avatar {
+            @extend .user-avatar;
+          }
+        }
+
+        li:last-child {
+          border-bottom: none;
+        }
+
+        .main-info {
+          display: flex;
+          align-items: center;
+        }
+      }
+    }
+
+    .user-details {
+      flex: 1;
+      padding: 50px;
+
+      .loading {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .main-info {
+        display: flex;
+        align-items: center;
+
+        .user-avatar {
+          @extend .user-avatar;
+        }
+      }
+
+      .detail-info {
+        padding: 50px 0px;
+        display: flex;
+        flex-direction: column;
+
+        .row {
+          display: flex;
+          width: 100%;
+          padding: 10px;
+
+          p {
+            width: 50%;
+          }
+        }
+      }
+    }
+  }
+}
