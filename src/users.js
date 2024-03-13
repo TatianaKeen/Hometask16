@@ -2,6 +2,16 @@ function UsersService(baseUrl) {
   this.baseUrl = baseUrl;
 }
 
+document.addEventListener('DOMContentLoaded', async () => {
+  try {
+    const usersService = new UsersService('https://jsonplaceholder.typicode.com');
+    const users = await usersService.getAllUsers();
+    usersService.renderUsersList(users);
+  } catch (error) {
+    console.error('Error:', error);
+  }
+});
+
 UsersService.prototype.getAllUsers = async function () {
   try {
     const response = await fetch(`${this.baseUrl}/users`);
@@ -30,14 +40,21 @@ UsersService.prototype.renderUsersList = function (list) {
 
   list.forEach(user => {
     const listItem = document.createElement('li');
-    listItem.innerHTML = `
-      <span>${user.name}</span> - <span>${user.company.name}</span>
+    const userAvatar = document.createElement('img');
+    userAvatar.src = `https://api.lorem.space/image/face?w=50&h=50&r=${user.id}`;
+    userAvatar.alt = `Avatar of ${user.name}`;
+    userAvatar.classList.add('user-avatar');
+    listItem.appendChild(userAvatar);
+    listItem.innerHTML += `
+      <h2>${user.name}</h2>
+      <p>Company: ${user.company.name}</p>
     `;
     listItem.addEventListener('click', async () => {
       try {
         const userInfo = await this.getUserById(user.id);
-        alert(`User info:\nName: ${userInfo.name}\nEmail: ${userInfo.email}\nPhone: ${userInfo.phone}`);
+        this.renderUserDetails(userInfo);
       } catch (error) {
+        console.error('Error fetching user information:', error);
         alert('Error fetching user information');
       }
     });
@@ -45,12 +62,18 @@ UsersService.prototype.renderUsersList = function (list) {
   });
 };
 
+UsersService.prototype.renderUserDetails = function (user) {
+  const userDetailsElement = document.getElementById('user-details');
+  userDetailsElement.innerHTML = `
+    <img class="user-avatar" src="https://api.lorem.space/image/face?w=50&h=50&r=${user.id}" alt="Avatar of ${user.name}">
 
-const usersService = new UsersService('https://jsonplaceholder.typicode.com');
-usersService.getAllUsers()
-  .then(users => {
-    usersService.renderUsersList(users);
-  })
-  .catch(error => {
-    console.error('Error:', error);
-  });
+    <h2>${user.name}</h2>
+    <p>Username: ${user.username}</p>
+
+    <p>Company: ${user.company.name}</p>
+    <p>Phone: ${user.phone}</p>
+    <p>Email: ${user.email}</p>
+    <p>Address: ${user.address.suite}, ${user.address.street}, ${user.address.city} / ${user.address.zipcode}</p>
+    <hr>
+  `;
+};
